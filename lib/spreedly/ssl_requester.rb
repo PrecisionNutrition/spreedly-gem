@@ -49,7 +49,7 @@ module Spreedly
       when 402
         raise PaymentRequiredError.new(xml_doc(response))
       when 422
-        if xml_doc(response).at_xpath('.//errors/error')
+        if xml_doc(response).xpath('.//errors/error').reject { |e| e.parent.parent.name == 'network_tokenization' }.present?
           raise TransactionCreationError.new(xml_doc(response))
         else
           xml_doc(response)
