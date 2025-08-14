@@ -7,7 +7,7 @@ module Spreedly
 
     def initialize_fields(xml_doc)
       self.class.fields.each do |field|
-        node = xml_doc.at_xpath(".//#{field}")
+        node = xml_doc.at_xpath(".//#{field}[not(ancestor::network_tokenization)]")
         if node 
           value = node.inner_html.strip
           instance_variable_set("@#{field}", value)
